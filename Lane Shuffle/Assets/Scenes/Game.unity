@@ -2738,6 +2738,7 @@ GameObject:
   - component: {fileID: 2020971383}
   - component: {fileID: 2020971384}
   - component: {fileID: 2020971385}
+  - component: {fileID: 2020971386}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -2760,8 +2761,8 @@ MonoBehaviour:
     type: 2}
   laneCount: 4
   laneParent: {fileID: 1581619520}
-  springSpeed: 17
-  verticalDistance: 0.6
+  horizontalSpeed: 17
+  verticalSpeed: 7
 --- !u!4 &2020971376
 Transform:
   m_ObjectHideFlags: 0
@@ -2970,6 +2971,19 @@ MonoBehaviour:
   sampleSize: 30
   fPSText: {fileID: 1959405707}
   fPSToggleCheckbox: {fileID: 1026051035}
+--- !u!114 &2020971386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2020971374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ff8b99c6d9efb4db2a5651ae9ed1e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyCode: 49
+  resolution: {x: 607, y: 1080}
 --- !u!1 &2025868023
 GameObject:
   m_ObjectHideFlags: 0

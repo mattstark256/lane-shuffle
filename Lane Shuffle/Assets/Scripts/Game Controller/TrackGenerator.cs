@@ -67,8 +67,12 @@ public class TrackGenerator : MonoBehaviour
 
             if (generatedRowCount > 0)
             {
-                AddSideWall();
                 AddCoinSection();
+            }
+
+            if (generatedRowCount > 3)
+            {
+                AddSideWall();
             }
 
             FillEmptySections();

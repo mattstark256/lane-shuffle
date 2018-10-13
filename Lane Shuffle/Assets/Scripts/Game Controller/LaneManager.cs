@@ -13,9 +13,9 @@ public class LaneManager : MonoBehaviour
     [SerializeField]
     private Transform laneParent;
     [SerializeField]
-    private float springSpeed = 10;
+    private float horizontalSpeed = 15;
     [SerializeField]
-    private float verticalDistance = 0.6f;
+    private float verticalSpeed = 6;
 
     private List<Lane> lanes = new List<Lane>();
 
@@ -61,7 +61,7 @@ public class LaneManager : MonoBehaviour
         draggedLane = lanes[draggedLaneIndex];
         isDragging = true;
         dragStartPosition = position;
-        laneStartPosition = draggedLane.transform.localPosition.x;
+        laneStartPosition = draggedLane.XPosition;
     }
 
 
@@ -69,19 +69,20 @@ public class LaneManager : MonoBehaviour
     {
         if (!isDragging) return;
 
-        // Move the dragged lane
+        // Move the dragged lane and record its velocity
         float draggedAmount = position.x - dragStartPosition.x;
-        float lanePosition = laneStartPosition + draggedAmount;
-        lanePosition = Mathf.Clamp(lanePosition, 0, laneCount - 1);
+        float newXPosition = laneStartPosition + draggedAmount;
+        newXPosition = Mathf.Clamp(newXPosition, 0, laneCount - 1);
+        draggedLane.XPosition = newXPosition;
 
-        Vector3 targetPosition = Vector3.right * lanePosition + Vector3.up * verticalDistance;
-        draggedLane.transform.localPosition = new Vector3(
-            targetPosition.x,
-            Mathf.Lerp(draggedLane.transform.localPosition.y, targetPosition.y, Time.deltaTime * springSpeed),
-            targetPosition.z);
+        // Raise the dragged lane
+        draggedLane.Height += Time.deltaTime * verticalSpeed;
+        // Prevent intersections with other lanes if it's been dragged very fast
+        float minimumHeight = Mathf.Abs(draggedLane.XPosition - laneStartPosition) * 3;
+        if (draggedLane.Height < minimumHeight) { draggedLane.Height = minimumHeight; }
 
         // Re-order the list if necessary
-        int newLaneIndex = Mathf.RoundToInt(lanePosition);
+        int newLaneIndex = Mathf.RoundToInt(draggedLane.XPosition);
         if (newLaneIndex != draggedLaneIndex)
         {
             lanes.RemoveAt(draggedLaneIndex);
@@ -94,21 +95,22 @@ public class LaneManager : MonoBehaviour
         {
             if (i != draggedLaneIndex)
             {
+                lanes[i].Height += Time.deltaTime * -verticalSpeed;
 
-                float distanceToDraggedLane = lanePosition - i;
+                float distanceToDraggedLane = draggedLane.XPosition - i;
 
                 if (Mathf.Abs(distanceToDraggedLane) < 1)
                 {
-                    Vector3 droppedLanePosition = Vector3.right * (((float)draggedLaneIndex + i) / 2);
+                    float laneX = (((float)draggedLaneIndex + i) / 2);
                     if (distanceToDraggedLane > 0)
-                    { droppedLanePosition += Vector3.right * Mathf.Cos(distanceToDraggedLane * Mathf.PI) * 0.5f; }
+                    { laneX += Mathf.Cos(distanceToDraggedLane * Mathf.PI) * 0.5f; }
                     else
-                    { droppedLanePosition += Vector3.left * Mathf.Cos(distanceToDraggedLane * Mathf.PI) * 0.5f; }
-                    lanes[i].transform.localPosition = droppedLanePosition;
+                    { laneX -= Mathf.Cos(distanceToDraggedLane * Mathf.PI) * 0.5f; }
+                    lanes[i].XPosition = (laneX);
                 }
                 else
                 {
-                    lanes[i].transform.localPosition = Vector3.right * i;
+                    lanes[i].XPosition = (i);
                 }
             }
         }
@@ -125,8 +127,9 @@ public class LaneManager : MonoBehaviour
     {
         for (int i = 0; i < lanes.Count; i++)
         {
-            Vector3 targetPosition = Vector3.right * i;
-            lanes[i].transform.localPosition = Vector3.Lerp(lanes[i].transform.localPosition, targetPosition, Time.deltaTime * springSpeed);
+            lanes[i].Height -= Time.deltaTime * verticalSpeed;
+
+            lanes[i].XPosition = Mathf.Lerp(lanes[i].XPosition, i, Time.deltaTime * horizontalSpeed);
         }
     }
 
@@ -134,7 +137,7 @@ public class LaneManager : MonoBehaviour
     private int GetLaneIndexFromPosition(Vector3 position)
     {
         int laneIndex = Mathf.RoundToInt(laneParent.InverseTransformPoint(position).x);
-        laneIndex = Mathf.Clamp(laneIndex, 0, laneCount-1);
+        laneIndex = Mathf.Clamp(laneIndex, 0, laneCount - 1);
         return laneIndex;
     }
 
