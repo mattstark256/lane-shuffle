@@ -2763,6 +2763,8 @@ MonoBehaviour:
   laneParent: {fileID: 1581619520}
   horizontalSpeed: 17
   verticalSpeed: 7
+  dragDistanceForLaneToBeFullyRaised: 0.4
+  slideUnderSharpness: 0.5
 --- !u!4 &2020971376
 Transform:
   m_ObjectHideFlags: 0
@@ -2983,7 +2985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyCode: 49
-  resolution: {x: 607, y: 1080}
+  resolution: {x: 608, y: 1080}
 --- !u!1 &2025868023
 GameObject:
   m_ObjectHideFlags: 0

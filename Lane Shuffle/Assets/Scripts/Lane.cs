@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq; // for list average
 
 public class Lane : MonoBehaviour
 {
     [SerializeField]
     private float verticalDistance = 0.6f;
+
 
     // Actual Y position is a sin function of height variable. This makes the lane accelerate downwards as if by gravity.
     private float height = 0;
@@ -26,6 +28,7 @@ public class Lane : MonoBehaviour
         }
     }
 
+
     public float XPosition
     {
         get
@@ -34,7 +37,27 @@ public class Lane : MonoBehaviour
         }
         set
         {
+            HorizontalVelocity = (value - XPosition) / Time.deltaTime;
+
             transform.localPosition = new Vector3(value, transform.localPosition.y, transform.localPosition.z);
+        }
+    }
+
+
+    private float horizontalVelocity = 0; // This is a moving average of several values
+    private List<float> velocities = new List<float>();
+    private const int maxVelocitiesCount = 5;
+    public float HorizontalVelocity
+    {
+        get
+        {
+            return horizontalVelocity;
+        }
+        private set
+        {
+            if (velocities.Count >= maxVelocitiesCount) { velocities.RemoveAt(0); }
+            velocities.Add(value);
+            horizontalVelocity = velocities.Average();
         }
     }
 }

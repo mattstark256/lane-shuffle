@@ -13,9 +13,17 @@ public class LaneManager : MonoBehaviour
     [SerializeField]
     private Transform laneParent;
     [SerializeField]
-    private float horizontalSpeed = 15;
+    private float horizontalSpeed = 17;
     [SerializeField]
-    private float verticalSpeed = 6;
+    private float verticalSpeed = 7;
+    [SerializeField]
+    private float dragDistanceForLaneToBeFullyRaised = 0.4f;
+    [SerializeField, Tooltip("How sharply/suddenly a lane slides under the dragged one")]
+    private float slideUnderSharpness = 0.5f;
+    [SerializeField, Tooltip("The maximum extra distance a lane can travel when dropped.")]
+    private float momentumMaxDistance = 0.3f;
+    [SerializeField, Tooltip("Steepness of momentum function (based on atan) at 0.")]
+    private float momentumSteepness = 0.4f;
 
     private List<Lane> lanes = new List<Lane>();
 
@@ -67,8 +75,6 @@ public class LaneManager : MonoBehaviour
 
     public void ContinueInteraction(Vector3 position)
     {
-        if (!isDragging) return;
-
         // Move the dragged lane and record its velocity
         float draggedAmount = position.x - dragStartPosition.x;
         float newXPosition = laneStartPosition + draggedAmount;
@@ -78,7 +84,7 @@ public class LaneManager : MonoBehaviour
         // Raise the dragged lane
         draggedLane.Height += Time.deltaTime * verticalSpeed;
         // Prevent intersections with other lanes if it's been dragged very fast
-        float minimumHeight = Mathf.Abs(draggedLane.XPosition - laneStartPosition) * 3;
+        float minimumHeight = Mathf.Abs(draggedLane.XPosition - laneStartPosition) / dragDistanceForLaneToBeFullyRaised;
         if (draggedLane.Height < minimumHeight) { draggedLane.Height = minimumHeight; }
 
         // Re-order the list if necessary
@@ -101,12 +107,17 @@ public class LaneManager : MonoBehaviour
 
                 if (Mathf.Abs(distanceToDraggedLane) < 1)
                 {
-                    float laneX = (((float)draggedLaneIndex + i) / 2);
+                    float midpointX = ((float)draggedLaneIndex + i) / 2;
+
+                    float offsetA = Mathf.Cos(distanceToDraggedLane * Mathf.PI); // Trig wave
+                    float offsetB = Mathf.Sin(offsetA * Mathf.PI / 2); // Trig wave from trig wave (sharper transition)
+                    float offset = Mathf.Lerp(offsetA, offsetB, slideUnderSharpness);
+                    offset /= 2;
+
                     if (distanceToDraggedLane > 0)
-                    { laneX += Mathf.Cos(distanceToDraggedLane * Mathf.PI) * 0.5f; }
+                    { lanes[i].XPosition = midpointX + offset; }
                     else
-                    { laneX -= Mathf.Cos(distanceToDraggedLane * Mathf.PI) * 0.5f; }
-                    lanes[i].XPosition = (laneX);
+                    { lanes[i].XPosition = midpointX - offset; }
                 }
                 else
                 {
@@ -119,8 +130,36 @@ public class LaneManager : MonoBehaviour
 
     public void EndInteraction()
     {
+        if (!isDragging) return;
+
         isDragging = false;
+
+        // When the player stops dragging a lane, its new index is determined by both its position and its velocity
+        int newLaneIndex = Mathf.RoundToInt(draggedLane.XPosition + GetMomentumDistance(draggedLane));
+        if (newLaneIndex != draggedLaneIndex)
+        {
+            lanes.RemoveAt(draggedLaneIndex);
+            lanes.Insert(newLaneIndex, draggedLane);
+            draggedLaneIndex = newLaneIndex;
+        }
     }
+
+
+    private float GetMomentumDistance(Lane lane)
+    {
+        return Mathf.Atan(lane.HorizontalVelocity * momentumSteepness) * 2 / Mathf.PI * momentumMaxDistance;
+    }
+    //// Used for testing the momentum values
+    //private void OnDrawGizmos()
+    //{
+    //    if (isDragging)
+    //    {
+    //        Gizmos.color = Color.red;
+    //        Vector3 startPosition = draggedLane.transform.position;
+    //        Vector3 endPosition = Vector3.right * (startPosition.x + GetMomentumDistance(draggedLane));
+    //        Gizmos.DrawLine(startPosition, endPosition);
+    //    }
+    //}
 
 
     private void MoveLanesTowardsCorrectPositions()
