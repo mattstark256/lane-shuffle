@@ -25,9 +25,11 @@ public class TrackGenerator : MonoBehaviour
     TrackSection leftWallSection;
     [SerializeField]
     TrackSection coinSection;
+    [SerializeField]
+    TrackSection slideyWallSection;
 
     private float nextTrackSectionPosition = 0f;
-    private int generatedRowCount = 0;
+    private int generatedRowCount = 0; // The number of horizontal rows of track that have been generated
 
     // This class keeps its own copy of "lanes", because laneManager keeps re-arranging its copy.
     private List<Lane> lanes;
@@ -65,14 +67,21 @@ public class TrackGenerator : MonoBehaviour
         {
             Add2Gap();
 
-            if (generatedRowCount > 0)
+            if (generatedRowCount > 0 && Random.value < 0.5f)
             {
                 AddCoinSection();
             }
 
-            if (generatedRowCount > 3)
+            if (generatedRowCount > 3 && Random.value < 0.67f)
             {
-                AddSideWall();
+                if (generatedRowCount > 30 && Random.value < 0.2f)
+                {
+                    AddSlideyWall();
+                }
+                else
+                {
+                    AddSideWall();
+                }
             }
 
             FillEmptySections();
@@ -103,6 +112,7 @@ public class TrackGenerator : MonoBehaviour
         }
     }
 
+
     // Pick a lane with no queue and add 2 blank then 1 solid
     private void Add2Gap()
     {
@@ -119,7 +129,6 @@ public class TrackGenerator : MonoBehaviour
     // Pick a lane with a blank at the front of the queue and replace it with a side wall
     private void AddSideWall()
     {
-        if (Random.value > 0.67f) return;
         List<int> lanesWithBlankSection = GetLanesWithSectionType(blankSection);
         if (lanesWithBlankSection.Count == 0) return;
         int lane = lanesWithBlankSection[Random.Range(0, lanesWithBlankSection.Count)];
@@ -130,10 +139,20 @@ public class TrackGenerator : MonoBehaviour
     }
 
 
+    private void AddSlideyWall()
+    {
+        List<int> lanesWithBlankSection = GetLanesWithSectionType(blankSection);
+        if (lanesWithBlankSection.Count == 0) return;
+        int lane = lanesWithBlankSection[Random.Range(0, lanesWithBlankSection.Count)];
+
+        upcomingSections[lane].RemoveAt(0);
+        upcomingSections[lane].Insert(0, slideyWallSection);
+    }
+
+
     // Pick a lane with no queue and add 1 coin then 1 solid
     private void AddCoinSection()
     {
-        if (Random.value > 0.5f) return;
         List<int> lanesWithNoQueue = GetLanesWithNoQueue();
         if (lanesWithNoQueue.Count == 0) return;
         int lane = lanesWithNoQueue[Random.Range(0, lanesWithNoQueue.Count)];

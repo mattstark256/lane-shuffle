@@ -37,27 +37,20 @@ public class Lane : MonoBehaviour
         }
         set
         {
-            HorizontalVelocity = (value - XPosition) / Time.deltaTime;
+            RecordVelocity((value - XPosition) / Time.deltaTime);
 
             transform.localPosition = new Vector3(value, transform.localPosition.y, transform.localPosition.z);
         }
     }
 
 
-    private float horizontalVelocity = 0; // This is a moving average of several values
-    private List<float> velocities = new List<float>();
-    private const int maxVelocitiesCount = 5;
-    public float HorizontalVelocity
+    public float RecordedVelocity { get; private set; }
+    private List<float> recordedVelocities = new List<float>();
+    private const int maxRecordedVelocitiesCount = 5;
+    private void RecordVelocity(float velocity)
     {
-        get
-        {
-            return horizontalVelocity;
-        }
-        private set
-        {
-            if (velocities.Count >= maxVelocitiesCount) { velocities.RemoveAt(0); }
-            velocities.Add(value);
-            horizontalVelocity = velocities.Average();
-        }
+        if (recordedVelocities.Count >= maxRecordedVelocitiesCount) { recordedVelocities.RemoveAt(0); }
+        recordedVelocities.Add(velocity);
+        RecordedVelocity = recordedVelocities.Average();
     }
 }

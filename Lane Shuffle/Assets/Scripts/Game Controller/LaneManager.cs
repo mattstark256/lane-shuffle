@@ -12,15 +12,15 @@ public class LaneManager : MonoBehaviour
     public int LaneCount { get { return laneCount; } }
     [SerializeField]
     private Transform laneParent;
-    [SerializeField]
+    [SerializeField, Tooltip("How quickly lanes lerp horizontally towards the correct position")]
     private float horizontalSpeed = 17;
-    [SerializeField]
+    [SerializeField, Tooltip("How quickly lanes rise and fall when picked up")]
     private float verticalSpeed = 7;
     [SerializeField]
     private float dragDistanceForLaneToBeFullyRaised = 0.4f;
     [SerializeField, Tooltip("How sharply/suddenly a lane slides under the dragged one")]
     private float slideUnderSharpness = 0.5f;
-    [SerializeField, Tooltip("The maximum extra distance a lane can travel when dropped.")]
+    [SerializeField, Tooltip("The maximum extra distance a lane can travel when dropped. When 0, lanes just travel to the nearest slot.")]
     private float momentumMaxDistance = 0.3f;
     [SerializeField, Tooltip("Steepness of momentum function (based on atan) at 0.")]
     private float momentumSteepness = 0.4f;
@@ -147,7 +147,7 @@ public class LaneManager : MonoBehaviour
 
     private float GetMomentumDistance(Lane lane)
     {
-        return Mathf.Atan(lane.HorizontalVelocity * momentumSteepness) * 2 / Mathf.PI * momentumMaxDistance;
+        return Mathf.Atan(lane.RecordedVelocity * momentumSteepness) * 2 / Mathf.PI * momentumMaxDistance;
     }
     //// Used for testing the momentum values
     //private void OnDrawGizmos()
