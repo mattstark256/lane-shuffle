@@ -20,13 +20,15 @@ public class TrackGenerator : MonoBehaviour
     [SerializeField]
     TrackSection solidSection;
     [SerializeField]
-    TrackSection rightWallSection;
-    [SerializeField]
-    TrackSection leftWallSection;
+    TrackSection sideWallSection;
     [SerializeField]
     TrackSection coinSection;
     [SerializeField]
     TrackSection slideyWallSection;
+    [SerializeField]
+    TrackSection hiddenWallForwardSection;
+    [SerializeField]
+    TrackSection hiddenWallBackSection;
 
     private float nextTrackSectionPosition = 0f;
     private int generatedRowCount = 0; // The number of horizontal rows of track that have been generated
@@ -74,9 +76,14 @@ public class TrackGenerator : MonoBehaviour
 
             if (generatedRowCount > 3 && Random.value < 0.67f)
             {
-                if (generatedRowCount > 30 && Random.value < 0.2f)
+                float r = Random.value;
+                if (generatedRowCount > 30 && r < 0.2f)
                 {
                     AddSlideyWall();
+                }
+                else if(generatedRowCount > 60 && r >= 0.2f && r < 0.4f)
+                {
+                    AddHiddenWall();
                 }
                 else
                 {
@@ -133,7 +140,6 @@ public class TrackGenerator : MonoBehaviour
         if (lanesWithBlankSection.Count == 0) return;
         int lane = lanesWithBlankSection[Random.Range(0, lanesWithBlankSection.Count)];
 
-        TrackSection sideWallSection = (Random.value < 0.5f) ? rightWallSection : leftWallSection;
         upcomingSections[lane].RemoveAt(0);
         upcomingSections[lane].Insert(0, sideWallSection);
     }
@@ -147,6 +153,18 @@ public class TrackGenerator : MonoBehaviour
 
         upcomingSections[lane].RemoveAt(0);
         upcomingSections[lane].Insert(0, slideyWallSection);
+    }
+
+
+    private void AddHiddenWall()
+    {
+        List<int> lanesWithBlankSection = GetLanesWithSectionType(blankSection);
+        if (lanesWithBlankSection.Count == 0) return;
+        int lane = lanesWithBlankSection[Random.Range(0, lanesWithBlankSection.Count)];
+
+        TrackSection sideWallSection = (upcomingSections[lane][1]==solidSection) ? hiddenWallForwardSection : hiddenWallBackSection;
+        upcomingSections[lane].RemoveAt(0);
+        upcomingSections[lane].Insert(0, sideWallSection);
     }
 
 

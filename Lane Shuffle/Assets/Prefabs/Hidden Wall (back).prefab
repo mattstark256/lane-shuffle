@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 33608400552370158}
   - component: {fileID: 23256244082125060}
   - component: {fileID: 65901136599210688}
-  - component: {fileID: 114925178584512624}
+  - component: {fileID: 114967221838889144}
   m_Layer: 0
-  m_Name: Side Wall
+  m_Name: Hidden Wall (back)
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,7 +97,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.4, z: 3.1}
   m_Center: {x: 0, y: 0.2, z: 0}
---- !u!114 &114925178584512624
+--- !u!114 &114967221838889144
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,7 +105,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1880450368292042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 299a12d414bff0d469ded690d39739ce, type: 3}
+  m_Script: {fileID: 11500000, guid: dca0005911475f846a4d97920b42a499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceFromCentre: 0.3
+  xOffset: 0.3
+  zOffset: 3
+  slideZPosition: 5
+  slideDuration: 0.5
+  zDirection: -1

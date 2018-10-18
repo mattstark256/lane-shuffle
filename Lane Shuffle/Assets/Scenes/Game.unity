@@ -2766,7 +2766,7 @@ MonoBehaviour:
   dragDistanceForLaneToBeFullyRaised: 0.4
   slideUnderSharpness: 0.5
   momentumMaxDistance: 0.3
-  momentumSteepness: 0.3
+  momentumSteepness: 0.25
 --- !u!4 &2020971376
 Transform:
   m_ObjectHideFlags: 0
@@ -2917,10 +2917,13 @@ MonoBehaviour:
   sectionLength: 3
   blankSection: {fileID: 11400000, guid: 536158a3ea7ca7b41bbbb812d232dbe8, type: 2}
   solidSection: {fileID: 11400000, guid: 4097c81a59cb18545a1b5868749c919d, type: 2}
-  rightWallSection: {fileID: 11400000, guid: 6bfc0f79338c060458794ed8a51d3b0e, type: 2}
-  leftWallSection: {fileID: 11400000, guid: c70d26b2422a48c48b65eafed5501127, type: 2}
+  sideWallSection: {fileID: 11400000, guid: c70d26b2422a48c48b65eafed5501127, type: 2}
   coinSection: {fileID: 11400000, guid: 9b577d8f34f0b1a47b4d1abcc2af8865, type: 2}
   slideyWallSection: {fileID: 11400000, guid: dbf8b5fe74aac6c41ba6f2f8221cc3cb, type: 2}
+  hiddenWallForwardSection: {fileID: 11400000, guid: e0bfc98190ffb8a4dbea86c1223114f2,
+    type: 2}
+  hiddenWallBackSection: {fileID: 11400000, guid: 7e9e9009d448a3a41b9f1cc99eb1622a,
+    type: 2}
 --- !u!114 &2020971382
 MonoBehaviour:
   m_ObjectHideFlags: 0

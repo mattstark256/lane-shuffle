@@ -7,8 +7,6 @@ public class TrackSectionObject : TrackSection
 {
     [SerializeField]
     private GameObject prefab;
-    [SerializeField]
-    private Vector3 positionOffset;
 
     public override void Build(Lane lane, float startPosition, float sectionLength, TrackObjectManager trackObjectManager)
     {
@@ -16,7 +14,7 @@ public class TrackSectionObject : TrackSection
 
         GameObject newObject = Instantiate(prefab);
         newObject.transform.SetParent(lane.transform);
-        newObject.transform.localPosition = Vector3.forward * (startPosition + sectionLength * 0.5f) + positionOffset;
+        newObject.transform.localPosition = Vector3.forward * (startPosition + sectionLength * 0.5f);
         trackObjectManager.AddObjectToTrack(newObject);
     }
 }

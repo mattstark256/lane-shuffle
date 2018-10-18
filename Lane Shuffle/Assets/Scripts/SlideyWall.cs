@@ -21,7 +21,7 @@ public class SlideyWall : MonoBehaviour
 
     void Start()
     {
-        SetXPosition(direction * distanceFromCentre);
+        transform.localPosition += Vector3.right * direction * distanceFromCentre;
     }
 
     void Update()
@@ -41,17 +41,12 @@ public class SlideyWall : MonoBehaviour
             f += Time.deltaTime / slideDuration;
             f = Mathf.Clamp01(f);
 
-            float offset = Mathf.Cos(f * Mathf.PI);
-            SetXPosition(direction * distanceFromCentre * offset);
+            transform.localPosition = new Vector3(
+                direction * distanceFromCentre * Mathf.Cos(f * Mathf.PI),
+                transform.localPosition.y,
+                transform.localPosition.z);
 
             yield return null;
         }
     }
-
-    private void SetXPosition(float xPosition)
-    {
-        transform.localPosition = new Vector3(xPosition, transform.localPosition.y, transform.localPosition.z);
-    }
-
-
 }
