@@ -9,6 +9,8 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField]
     private GameObject inGameMenu;
+    [SerializeField]
+    private MusicManager musicManager;
 
 
     private void Awake()
@@ -23,6 +25,7 @@ public class PauseMenu : MonoBehaviour
     {
         inGameMenu.SetActive(true);
         Time.timeScale = 0;
+        musicManager.PauseMusic();
     }
 
 
@@ -30,6 +33,7 @@ public class PauseMenu : MonoBehaviour
     {
         inGameMenu.SetActive(false);
         Time.timeScale = 1;
+        musicManager.PlayMusic();
     }
 
 

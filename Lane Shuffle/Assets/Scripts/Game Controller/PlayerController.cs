@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private AnimationCurve laneSwitchRotationCurve;
     [SerializeField]
     private Vector3 playerPositionOffset;
+    [SerializeField]
+    private SoundEffectManager audioEffects;
 
     private GameObject playerObject;
     private Lane currentLane;
@@ -174,5 +176,6 @@ public class PlayerController : MonoBehaviour
     {
         coin.Collect();
         gameController.AddToScore(coin.Value);
+        audioEffects.PlayEffect("Coin");
     }
 }

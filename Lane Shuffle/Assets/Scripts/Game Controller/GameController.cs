@@ -11,6 +11,11 @@ public class GameController : MonoBehaviour
     private MouseAndTouchManager mouseAndTouchManager;
 
     [SerializeField]
+    private SoundEffectManager audioEffects;
+    [SerializeField]
+    private MusicManager musicManager;
+
+    [SerializeField]
     private GameObject gameOverPanel;
     [SerializeField]
     private ScoreText inGameScoreText;
@@ -24,7 +29,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private float finalTrackSpeed = 2f;
     [SerializeField]
-    private float trackAccelerationRate = 1f;
+    private float initialTrackGradient = 0.01f;
     private float trackSpeed = 0f;
 
     [SerializeField]
@@ -33,6 +38,7 @@ public class GameController : MonoBehaviour
     private int score = 0;
     private bool gameIsInProgress = true;
     public bool GameIsInProgress { get { return gameIsInProgress; } }
+    private float gameTime = 0;
 
 
     private void Awake()
@@ -56,9 +62,9 @@ public class GameController : MonoBehaviour
         // accelerate the track
         if (gameIsInProgress)
         {
-            trackSpeed = Mathf.Lerp(trackSpeed, finalTrackSpeed, Time.deltaTime * trackAccelerationRate);
+            gameTime += Time.deltaTime;
+            trackSpeed = Mathf.Lerp(initialTrackSpeed, finalTrackSpeed, Mathf.Atan(gameTime * initialTrackGradient));
             trackObjectManager.TargetMoveSpeed = trackSpeed;
-            //Debug.Log(trackSpeed);
         }
     }
 
@@ -77,6 +83,8 @@ public class GameController : MonoBehaviour
         gameIsInProgress = false;
         mouseAndTouchManager.SetInputEnabled(false);
         movementButtons.SetActive(false);
+        musicManager.EndMusic();
+        audioEffects.PlayEffect("Die");
 
         StartCoroutine(GameOverCoroutine());
     }
