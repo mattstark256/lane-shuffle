@@ -6,6 +6,7 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
     // TODO Make the music use a start section and a loop section
+    // TODO Find a better solution for the game temporarly freezing when the music is stopped. Currently I mute the music instead of stopping it.
 
     private VolumeControl volumeControl;
 
@@ -24,6 +25,8 @@ public class MusicManager : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
     
     private int musicID;
+
+    private bool isMuted = false;
 
     void Start()
     {
@@ -46,15 +49,20 @@ public class MusicManager : MonoBehaviour
     public void EndMusic()
     {
         hasEnded = true;
-        PauseMusic();
+        //PauseMusic();
+
+        // Muting instead of stopping the music because stopping it can make the app freeze for a fraction of a second
+        ANAMusic.setVolume(musicID, 0);
+        isMuted = true;
     }
 
     public void UpdateVolume()
     {
+        if (isMuted) { return; }
         ANAMusic.setVolume(musicID, volume * volumeControl.MusicVolume);
     }
 
-    private void OnApplicationQuit()
+    private void OnDestroy()
     {
         ANAMusic.release(musicID);
     }

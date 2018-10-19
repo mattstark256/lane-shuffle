@@ -27,11 +27,11 @@ public class SoundEffectManager : MonoBehaviour
     public void PlayEffect(string effectName)
     {
         SoundEffect s = Array.Find(effects, effect => effect.name == effectName); // this uses a Lambda Expression
-        int SoundID = AndroidNativeAudio.play(s.fileID);
-        AndroidNativeAudio.setVolume(SoundID, s.volume * volumeControl.EffectsVolume);
+        int soundID = AndroidNativeAudio.play(s.fileID);
+        AndroidNativeAudio.setVolume(soundID, s.volume * volumeControl.EffectsVolume);
     }
 
-    void OnApplicationQuit()
+    void OnDestroy()
     {
         foreach (SoundEffect effect in effects) { AndroidNativeAudio.unload(effect.fileID); }
         AndroidNativeAudio.releasePool();

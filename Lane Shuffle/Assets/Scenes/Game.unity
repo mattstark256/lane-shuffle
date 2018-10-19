@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7998043, g: 0.7998043, b: 0.7998043, a: 1}
+  m_IndirectSpecularColor: {r: 0.8515635, g: 0.83349586, b: 0.99999946, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -245,7 +245,7 @@ MonoBehaviour:
   effects:
   - name: Coin
     filePath: Lane Shuffle/Effects/sfx_coin_double.wav
-    volume: 1
+    volume: 0.9
     audioClip: {fileID: 8300000, guid: 12d6106bbebdaa84c93072c4d4de02d3, type: 3}
     fileID: 0
   - name: Die
@@ -3419,6 +3419,7 @@ GameObject:
   - component: {fileID: 2020971384}
   - component: {fileID: 2020971385}
   - component: {fileID: 2020971386}
+  - component: {fileID: 2020971387}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -3575,7 +3576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f73b60d1849d5b4581e2a590336f9d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioEffects: {fileID: 48962804}
+  soundEffectManager: {fileID: 48962804}
   musicManager: {fileID: 48962805}
   gameOverPanel: {fileID: 1471711194}
   inGameScoreText: {fileID: 2119738926}
@@ -3628,7 +3629,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2020971374}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b69a9426050754f41b4214fd1950e74b, type: 3}
   m_Name: 
@@ -3636,7 +3637,7 @@ MonoBehaviour:
   sceneryPrefab: {fileID: 1443122768431378, guid: f358367ba002e7c40a353bf70a375f75,
     type: 2}
   generateZ: 50
-  scenerySpacing: 3
+  scenerySpacing: 6
 --- !u!114 &2020971384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3677,6 +3678,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyCode: 49
   resolution: {x: 608, y: 1080}
+--- !u!114 &2020971387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2020971374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a57d4eb16cc0342a1a9d60efbed413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tintColors:
+  - {r: 0, g: 0.5019608, b: 0.019607844, a: 1}
+  - {r: 0, g: 0.46274513, b: 0.7176471, a: 1}
+  - {r: 0.25882354, g: 0.16862746, b: 1, a: 1}
+  - {r: 0.76470596, g: 0, b: 0.8000001, a: 1}
+  - {r: 0.87843144, g: 0, b: 0.14509805, a: 1}
+  tintIndex: 2
+  tintChangeInterval: 20
+  tintChangeDuration: 2
+  wallMaterial: {fileID: 2100000, guid: 9057f7fafb5cf6c40ba7e2e5de6d6b77, type: 2}
+  skyMaterial: {fileID: 2100000, guid: ce48295899fc1744f89ac9667bba04ce, type: 2}
+  columnMaterial: {fileID: 2100000, guid: 4b1df23846e3d2144aa5209b5c8de71c, type: 2}
+  wallBase: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+  wallTintAmount: 0.5
+  skyBase: {r: 1, g: 1, b: 1, a: 1}
+  skyTintAmount: 0.2
 --- !u!1 &2025868023
 GameObject:
   m_ObjectHideFlags: 0

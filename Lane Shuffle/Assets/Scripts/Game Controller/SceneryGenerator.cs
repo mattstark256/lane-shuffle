@@ -33,7 +33,7 @@ public class SceneryGenerator : MonoBehaviour
 
             GameObject newColumn = Instantiate(sceneryPrefab);
             newColumn.transform.position = Vector3.forward * nextSceneryPosition;
-            newColumn.transform.rotation = Quaternion.Euler(0, 0, angle);
+            //newColumn.transform.rotation = Quaternion.Euler(0, 0, angle);
             trackObjectManager.AddObjectToTrack(newColumn);
 
             nextSceneryPosition += scenerySpacing;

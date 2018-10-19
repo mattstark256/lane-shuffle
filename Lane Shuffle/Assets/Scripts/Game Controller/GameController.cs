@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     private MouseAndTouchManager mouseAndTouchManager;
 
     [SerializeField]
-    private SoundEffectManager audioEffects;
+    private SoundEffectManager soundEffectManager;
     [SerializeField]
     private MusicManager musicManager;
 
@@ -84,7 +84,7 @@ public class GameController : MonoBehaviour
         mouseAndTouchManager.SetInputEnabled(false);
         movementButtons.SetActive(false);
         musicManager.EndMusic();
-        audioEffects.PlayEffect("Die");
+        soundEffectManager.PlayEffect("Die");
 
         StartCoroutine(GameOverCoroutine());
     }
