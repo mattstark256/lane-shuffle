@@ -7,8 +7,15 @@ public class PauseMenu : MonoBehaviour
 {
     private GameController gameController;
 
+    [SerializeField, Tooltip("This is the parent to the menu pages and includes all generic menu elements")]
+    private GameObject pauseMenuBase;
     [SerializeField]
-    private GameObject inGameMenu;
+    private GameObject mainPage;
+    [SerializeField]
+    private GameObject settingsPage;
+    [SerializeField]
+    private GameObject creditsPage;
+
     [SerializeField]
     private MusicManager musicManager;
 
@@ -17,23 +24,40 @@ public class PauseMenu : MonoBehaviour
     {
         gameController = GetComponent<GameController>();
 
-        inGameMenu.SetActive(false);
+        pauseMenuBase.SetActive(false);
     }
 
 
-    public void OpenMenu()
+    public void OpenPauseMenu()
     {
-        inGameMenu.SetActive(true);
+        pauseMenuBase.SetActive(true);
         Time.timeScale = 0;
         musicManager.PauseMusic();
+
+        CloseAllPages();
+        mainPage.SetActive(true);
     }
 
 
     public void CloseMenu()
     {
-        inGameMenu.SetActive(false);
+        pauseMenuBase.SetActive(false);
         Time.timeScale = 1;
         musicManager.PlayMusic();
+    }
+
+
+    public void SwitchToSettings()
+    {
+        CloseAllPages();
+        settingsPage.SetActive(true);
+    }
+
+
+    public void SwitchToCredits()
+    {
+        CloseAllPages();
+        creditsPage.SetActive(true);
     }
 
 
@@ -41,5 +65,13 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         gameController.ReloadScene();
+    }
+
+
+    private void CloseAllPages()
+    {
+        mainPage.SetActive(false);
+        settingsPage.SetActive(false);
+        creditsPage.SetActive(false);
     }
 }

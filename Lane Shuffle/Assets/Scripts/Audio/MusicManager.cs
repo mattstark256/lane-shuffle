@@ -31,8 +31,10 @@ public class MusicManager : MonoBehaviour
     void Start()
     {
         musicID = ANAMusic.load(filePath);
-        ANAMusic.play(musicID);
+
         ANAMusic.setVolume(musicID, volume * volumeControl.MusicVolume);
+        ANAMusic.setLooping(musicID, true);
+        ANAMusic.play(musicID);
     }
 
     public void PlayMusic()
@@ -82,6 +84,7 @@ public class MusicManager : MonoBehaviour
         audioSource.clip = www.GetAudioClip();
 
         audioSource.volume = volume * volumeControl.MusicVolume;
+        audioSource.loop = true;
         audioSource.Play();
     }
 
