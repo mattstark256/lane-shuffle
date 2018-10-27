@@ -15,8 +15,8 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="Hamburger.svg"
-   inkscape:export-filename="C:\Users\Matt\Documents\misc\unity\practice excercises\Lane Shuffle\lane-shuffle\Lane Shuffle\Assets\Textures\Hamburger.png"
+   sodipodi:docname="SliderButton.svg"
+   inkscape:export-filename="C:\Users\Matt\Documents\misc\unity\practice excercises\Lane Shuffle\lane-shuffle\Lane Shuffle\Assets\Textures\Cross.png"
    inkscape:export-xdpi="180"
    inkscape:export-ydpi="180">
   <defs
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="35.837313"
-     inkscape:cy="30.568327"
+     inkscape:zoom="7.919596"
+     inkscape:cx="28.189947"
+     inkscape:cy="36.741301"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -57,23 +57,13 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-988.36216)">
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:4.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 14.615786,1020.3622 34.768429,0"
-       id="path4138"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:4.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 14.615786,1006.4548 34.76843,0"
-       id="path4138-3"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:4.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 14.615786,1034.2695 34.76843,0"
-       id="path4138-3-3"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:5.58099413;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4139"
+       width="37.232014"
+       height="37.232014"
+       x="725.51648"
+       y="680.2486"
+       transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)" />
   </g>
 </svg>

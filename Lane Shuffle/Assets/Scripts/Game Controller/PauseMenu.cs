@@ -9,12 +9,16 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField, Tooltip("This is the parent to the menu pages and includes all generic menu elements")]
     private GameObject pauseMenuBase;
+    [SerializeField, Tooltip("This the button used to return to the main page")]
+    private GameObject backButton;
     [SerializeField]
     private GameObject mainPage;
     [SerializeField]
     private GameObject settingsPage;
     [SerializeField]
     private GameObject creditsPage;
+    [SerializeField]
+    private GameObject instructionsPage;
 
     [SerializeField]
     private MusicManager musicManager;
@@ -33,13 +37,11 @@ public class PauseMenu : MonoBehaviour
         pauseMenuBase.SetActive(true);
         Time.timeScale = 0;
         musicManager.PauseMusic();
-
-        CloseAllPages();
-        mainPage.SetActive(true);
+        SwitchToMainPage();
     }
 
 
-    public void CloseMenu()
+    public void ClosePauseMenu()
     {
         pauseMenuBase.SetActive(false);
         Time.timeScale = 1;
@@ -47,17 +49,34 @@ public class PauseMenu : MonoBehaviour
     }
 
 
-    public void SwitchToSettings()
+    public void SwitchToMainPage()
     {
         CloseAllPages();
-        settingsPage.SetActive(true);
+        mainPage.SetActive(true);
     }
 
 
-    public void SwitchToCredits()
+    public void SwitchToSettingsPage()
+    {
+        CloseAllPages();
+        settingsPage.SetActive(true);
+        backButton.SetActive(true);
+    }
+
+
+    public void SwitchToCreditsPage()
     {
         CloseAllPages();
         creditsPage.SetActive(true);
+        backButton.SetActive(true);
+    }
+
+
+    public void SwitchToInstructionsPage()
+    {
+        CloseAllPages();
+        instructionsPage.SetActive(true);
+        backButton.SetActive(true);
     }
 
 
@@ -73,5 +92,7 @@ public class PauseMenu : MonoBehaviour
         mainPage.SetActive(false);
         settingsPage.SetActive(false);
         creditsPage.SetActive(false);
+        instructionsPage.SetActive(false);
+        backButton.SetActive(false);
     }
 }
