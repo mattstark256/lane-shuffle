@@ -5059,9 +5059,9 @@ MonoBehaviour:
   inGameScoreText: {fileID: 2119738926}
   finalScoreText: {fileID: 1455977377}
   movementButtons: {fileID: 2025868023}
-  initialTrackSpeed: 1.5
+  initialTrackSpeed: 1.2
   finalTrackSpeed: 4.5
-  initialTrackGradient: 0.006
+  initialTrackGradient: 0.005
   gameOverDelay: 1
 --- !u!114 &2020971381
 MonoBehaviour:
