@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
     private SoundEffectManager soundEffectManager;
     [SerializeField]
     private MusicManager musicManager;
+    [SerializeField]
+    private NewTopScoreEffect topScoreEffect;
 
     [SerializeField]
     private GameObject gameOverPanel;
@@ -35,10 +37,13 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private float gameOverDelay = 1f;
 
+
     private int score = 0;
     private bool gameIsInProgress = true;
     public bool GameIsInProgress { get { return gameIsInProgress; } }
     private float gameTime = 0;
+
+    private bool hasNewTopScore = false;
 
 
     private void Awake()
@@ -74,6 +79,16 @@ public class GameController : MonoBehaviour
         score += amount;
         inGameScoreText.UpdateScore(score);
         inGameScoreText.Bounce();
+
+        int topScore = PlayerPrefs.GetInt("Top Score");
+        if (!hasNewTopScore &&
+            topScore > 0 &&
+            score > topScore)
+        {
+            hasNewTopScore = true;
+            Debug.Log("New top score!");
+            topScoreEffect.DoNewTopScoreEffect();
+        }
     }
 
 
