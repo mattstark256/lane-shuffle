@@ -314,23 +314,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effects:
   - name: Coin
-    filePath: Lane Shuffle/Effects/sfx_coin_double.wav
-    volume: 0.6
+    filePath: Effects/sfx_coin_double.wav
+    volume: 0.8
     audioClip: {fileID: 8300000, guid: 12d6106bbebdaa84c93072c4d4de02d3, type: 3}
     fileID: 0
   - name: Die
-    filePath: Lane Shuffle/Effects/sfx_sound_shutdown1.wav
-    volume: 0.8
+    filePath: Effects/sfx_sound_shutdown1.wav
+    volume: 1
     audioClip: {fileID: 8300000, guid: 02fe39027b3903e438f4e72367bec90b, type: 3}
     fileID: 0
   - name: Fanfare
-    filePath: Lane Shuffle/Effects/sfx_sounds_fanfare3.wav
-    volume: 0.7
+    filePath: Effects/sfx_sounds_fanfare3.wav
+    volume: 0.9
     audioClip: {fileID: 8300000, guid: 02fe39027b3903e438f4e72367bec90b, type: 3}
     fileID: 0
   - name: Thud
-    filePath: Lane Shuffle/Effects/sfx_sounds_impact6.wav
-    volume: 0.6
+    filePath: Effects/sfx_sounds_impact6.wav
+    volume: 0.8
     audioClip: {fileID: 8300000, guid: 02fe39027b3903e438f4e72367bec90b, type: 3}
     fileID: 0
 --- !u!114 &48962805
@@ -344,8 +344,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2fda7e7ebd2b7d40b87c8b8246c0eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePath: Lane Shuffle/Music/Starbox_-_05_-_Digital_Dream_Azureflux_Remix.mp3
-  volume: 0.4
+  filePath: Music/Starbox_-_05_-_Digital_Dream_Azureflux_Remix.mp3
+  volume: 0.5
 --- !u!114 &48962806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5115,8 +5115,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cancelSwitchDuration: 0.15
-  cancelSwitchCurve:
+  cancelSwitchDuration: 0.2
+  cancelSwitchPositionCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -5140,8 +5140,40 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  cancelSwitchRotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -12.1243
+      outSlope: -12.1243
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33995584
+    - serializedVersion: 3
+      time: 0.3
+      value: -0.4
+      inSlope: 0.0047737216
+      outSlope: 0.0047737216
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.3465784
+      outWeight: 0.26006538
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.0038053629
+      outSlope: 0.0038053629
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.6376537
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   cancelSwitchCutoff: 0.6
-  cancelSwitchBounceAngle: 0.6
   playerPositionOffset: {x: 0, y: 0.2, z: 0}
   audioEffects: {fileID: 48962804}
 --- !u!114 &2020971379

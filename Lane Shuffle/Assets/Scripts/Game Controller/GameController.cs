@@ -86,7 +86,6 @@ public class GameController : MonoBehaviour
             score > topScore)
         {
             hasNewTopScore = true;
-            Debug.Log("New top score!");
             topScoreEffect.DoNewTopScoreEffect();
         }
     }

@@ -21,12 +21,16 @@ public class PlayerController : MonoBehaviour
     private AnimationCurve laneSwitchRotationCurve;
     [SerializeField]
     private float cancelSwitchDuration = 0.2f;
+    //[SerializeField]
+    //private AnimationCurve cancelSwitchCurve;
     [SerializeField]
-    private AnimationCurve cancelSwitchCurve;
+    private AnimationCurve cancelSwitchPositionCurve;
+    [SerializeField]
+    private AnimationCurve cancelSwitchRotationCurve;
     [SerializeField, Tooltip("The point during a lane switch after which the switch can't be cancelled.")]
     private float cancelSwitchCutoff = 0.7f;
-    [SerializeField, Tooltip("Used to scale the angle the player switches to when they bounce off a wall")]
-    private float cancelSwitchBounceAngle = 0.6f;
+    //[SerializeField, Tooltip("Used to scale the angle the player switches to when they bounce off a wall")]
+    //private float cancelSwitchBounceAngle = 0.6f;
     [SerializeField]
     private Vector3 playerPositionOffset;
     [SerializeField]
@@ -150,8 +154,7 @@ public class PlayerController : MonoBehaviour
         collideableLanes.Add(currentLane);
 
         Vector3 cancelPosition = playerObject.transform.localPosition;
-        Quaternion cancelRotation = Quaternion.Inverse(playerObject.transform.localRotation); // Flip the rotation to make it look like it's bounced off the surface.
-        cancelRotation = Quaternion.Slerp(Quaternion.identity, cancelRotation, cancelSwitchBounceAngle); // Scale the rotation
+        Quaternion cancelRotation = playerObject.transform.localRotation;
 
         float f = 0;
         while (f < 1)
@@ -159,8 +162,8 @@ public class PlayerController : MonoBehaviour
             f += Time.deltaTime / cancelSwitchDuration;
             f = Mathf.Clamp01(f);
 
-            playerObject.transform.localPosition = Vector3.Lerp(cancelPosition, playerPositionOffset, cancelSwitchCurve.Evaluate(f));
-            playerObject.transform.localRotation = Quaternion.Slerp(cancelRotation, Quaternion.identity, cancelSwitchCurve.Evaluate(f));
+            playerObject.transform.localPosition = Vector3.Lerp(cancelPosition, playerPositionOffset, cancelSwitchPositionCurve.Evaluate(f));
+            playerObject.transform.localRotation = Quaternion.SlerpUnclamped(Quaternion.identity, cancelRotation, cancelSwitchRotationCurve.Evaluate(f));
 
             yield return null;
         }
