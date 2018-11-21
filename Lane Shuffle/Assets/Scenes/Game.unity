@@ -328,6 +328,11 @@ MonoBehaviour:
     volume: 0.7
     audioClip: {fileID: 8300000, guid: 02fe39027b3903e438f4e72367bec90b, type: 3}
     fileID: 0
+  - name: Thud
+    filePath: Lane Shuffle/Effects/sfx_sounds_impact6.wav
+    volume: 0.6
+    audioClip: {fileID: 8300000, guid: 02fe39027b3903e438f4e72367bec90b, type: 3}
+    fileID: 0
 --- !u!114 &48962805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4409,7 +4414,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Lane Shuffle\nCreated by Matt Stark\nmattstark256@gmail.com\n\nMusic\nDigital
+  m_Text: "Flux Rush\nCreated by Matt Stark\nmattstark256@gmail.com\n\nMusic\nDigital
     Dream (Azureflux Remix)\nCreated by Starbox and Azureflux\nhttps://vocadb.net/Ar/32439\nhttps://azuresound.bandcamp.com/\nLicenced
     under Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)\n\nFont\nSquarefont\nCreated
     by Agust\xEDn Bou\nagustinluisbou92@yahoo.com.ar\nhttps://www.dafont.com/squarefont.font\n\nSound
@@ -5110,6 +5115,33 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  cancelSwitchDuration: 0.15
+  cancelSwitchCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  cancelSwitchCutoff: 0.6
+  cancelSwitchBounceAngle: 0.6
   playerPositionOffset: {x: 0, y: 0.2, z: 0}
   audioEffects: {fileID: 48962804}
 --- !u!114 &2020971379
@@ -5143,7 +5175,7 @@ MonoBehaviour:
   inGameScoreText: {fileID: 2119738926}
   finalScoreText: {fileID: 1455977377}
   movementButtons: {fileID: 2025868023}
-  initialTrackSpeed: 1.3
+  initialTrackSpeed: 1.25
   finalTrackSpeed: 4.5
   initialTrackGradient: 0.005
   gameOverDelay: 1
@@ -5181,7 +5213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1ed0dc96f773547836930826d430de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstScoreDistance: 8
+  firstScoreDistance: 5
   sectionLength: 3
   scorePerSection: 1
 --- !u!114 &2020971383
@@ -5599,7 +5631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageBeforeScore: 
-  bounceAmount: 1.5
+  bounceAmount: 1.6
   bounceSpeed: 10
 --- !u!114 &2119738927
 MonoBehaviour:

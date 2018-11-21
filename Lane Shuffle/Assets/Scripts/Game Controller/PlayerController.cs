@@ -20,20 +20,31 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private AnimationCurve laneSwitchRotationCurve;
     [SerializeField]
+    private float cancelSwitchDuration = 0.2f;
+    [SerializeField]
+    private AnimationCurve cancelSwitchCurve;
+    [SerializeField, Tooltip("The point during a lane switch after which the switch can't be cancelled.")]
+    private float cancelSwitchCutoff = 0.7f;
+    [SerializeField, Tooltip("Used to scale the angle the player switches to when they bounce off a wall")]
+    private float cancelSwitchBounceAngle = 0.6f;
+    [SerializeField]
     private Vector3 playerPositionOffset;
     [SerializeField]
     private SoundEffectManager audioEffects;
 
     private GameObject playerObject;
-    private Lane currentLane;
-
-    private int laneSwitchBuffer = 0; // This is used for queuing up inputs, so an input doesn't get ignored because it is too soon after another
-    private bool isSwitchingLane = false;
-    private Coroutine laneSwitchCoroutine;
-
     private bool isAlive = true;
 
-    // The player will only collide with objects on their current lane/lanes. For example, if a dragged lane hasn't moved high enough when it passes over the player, we will ignore any collisions.
+    private Lane currentLane;
+    private bool isSwitchingLane = false;
+    private bool isCancellingSwitch = false;
+    private bool canCancelSwitch = false; // This is true for part of the time the player is switching lanes. The size of this part depends on cancelSwitchCutoff.
+    private Coroutine laneSwitchCoroutine;
+    private Coroutine cancelSwitchCoroutine;
+
+    // This is used for queuing up inputs, so an input doesn't get ignored because it is too soon after another.
+    private List<int> inputQueue = new List<int>();
+    // The player will only collide with objects on their current lane/lanes. For example, if a dragged lane hasn't moved high enough when it passes over the player, we ignore any collisions.
     private List<Lane> collideableLanes = new List<Lane>();
 
 
@@ -59,37 +70,28 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            AddSwitchLaneInput(1);
-        }
+        // Controls for desktop version
+        if (Input.GetKeyDown(KeyCode.D)) { AddSwitchLaneInput(1); }
+        if (Input.GetKeyDown(KeyCode.A)) { AddSwitchLaneInput(-1); }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (inputQueue.Count > 0 &&
+            !isSwitchingLane &&
+            !isCancellingSwitch &&
+            isAlive)
         {
-            AddSwitchLaneInput(-1);
-        }
-
-        if (!isSwitchingLane && isAlive)
-        {
-            if (laneSwitchBuffer > 0) { SwitchLane(1); }
-            if (laneSwitchBuffer < 0) { SwitchLane(-1); }
+            SwitchLane(inputQueue[0]);
+            inputQueue.RemoveAt(0);
         }
     }
 
 
     public void AddSwitchLaneInput(int direction)
     {
-        laneSwitchBuffer += direction;
+        inputQueue.Add(direction);
     }
 
 
-    private void SwitchLane(int direction)
-    {
-        laneSwitchBuffer -= direction;
-        laneSwitchCoroutine = StartCoroutine(SwitchLaneCoroutine(direction));
-    }
-
-
+    private void SwitchLane(int direction) { laneSwitchCoroutine = StartCoroutine(SwitchLaneCoroutine(direction)); }
     private IEnumerator SwitchLaneCoroutine(int direction)
     {
         int currentLaneIndex = laneManager.GetLaneIndex(currentLane);
@@ -97,13 +99,12 @@ public class PlayerController : MonoBehaviour
         if (!laneManager.LaneExists(newLaneIndex)) yield break;
 
         isSwitchingLane = true;
+        canCancelSwitch = true;
 
         Lane oldLane = currentLane;
         Lane newLane = laneManager.GetLane(newLaneIndex);
 
-        currentLane = newLane;
         collideableLanes.Add(newLane);
-        playerObject.transform.SetParent(currentLane.transform, false);
 
         float f = 0;
         while (f < 1)
@@ -116,11 +117,55 @@ public class PlayerController : MonoBehaviour
             Quaternion directionToNewLane = Quaternion.LookRotation(newLane.transform.position - oldLane.transform.position);
             playerObject.transform.localRotation = Quaternion.Slerp(Quaternion.identity, directionToNewLane, laneSwitchRotationCurve.Evaluate(f));
 
+            // There is a cutoff for when a switch can be cancelled. This is because it looks weird when a 99% complete switch is cancelled.
+            if (f > cancelSwitchCutoff) { canCancelSwitch = false; }
+
             yield return null;
         }
 
         collideableLanes.Remove(oldLane);
+
+        currentLane = newLane;
+
+        playerObject.transform.SetParent(currentLane.transform, true);
+        playerObject.transform.localPosition = playerPositionOffset; // This line is necessary because worldPositionStays very occasionally doesn't work correctly, and the player jumps to a position that doesn't match their world position. I haven't yet figured out why this happens.
+
         isSwitchingLane = false;
+    }
+
+
+    private void CancelSwitch() { cancelSwitchCoroutine = StartCoroutine(CancelSwitchCoroutine()); }
+    private IEnumerator CancelSwitchCoroutine()
+    {
+        audioEffects.PlayEffect("Thud");
+
+        StopCoroutine(laneSwitchCoroutine);
+
+        isSwitchingLane = false;
+        isCancellingSwitch = true;
+        canCancelSwitch = false;
+
+        // Disable collisions with the lane they were trying to switch to.
+        collideableLanes.Clear();
+        collideableLanes.Add(currentLane);
+
+        Vector3 cancelPosition = playerObject.transform.localPosition;
+        Quaternion cancelRotation = Quaternion.Inverse(playerObject.transform.localRotation); // Flip the rotation to make it look like it's bounced off the surface.
+        cancelRotation = Quaternion.Slerp(Quaternion.identity, cancelRotation, cancelSwitchBounceAngle); // Scale the rotation
+
+        float f = 0;
+        while (f < 1)
+        {
+            f += Time.deltaTime / cancelSwitchDuration;
+            f = Mathf.Clamp01(f);
+
+            playerObject.transform.localPosition = Vector3.Lerp(cancelPosition, playerPositionOffset, cancelSwitchCurve.Evaluate(f));
+            playerObject.transform.localRotation = Quaternion.Slerp(cancelRotation, Quaternion.identity, cancelSwitchCurve.Evaluate(f));
+
+            yield return null;
+        }
+
+        isCancellingSwitch = false;
     }
 
 
@@ -136,6 +181,19 @@ public class PlayerController : MonoBehaviour
 
         if (other.tag == "Obstacle")
         {
+            // The player should bounce back if they moved sideways by accident.
+            if (canCancelSwitch && !ObstacleBlocksCurrentLane(other))
+            {
+                CancelSwitch();
+                return;
+            }
+
+            // The player shouldn't be able to hit things while cancelling, unless they block the current lane.
+            if (isCancellingSwitch && !ObstacleBlocksCurrentLane(other))
+            {
+                return;
+            }
+
             Die();
         }
 
@@ -148,6 +206,15 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    // This is needed because you shouldn't be able to cancel from a head on collision with an obstacle in your current lane
+    private bool ObstacleBlocksCurrentLane(Collider obstacle)
+    {
+        return
+            obstacle.transform.localPosition.x == 0 && // If it's in the middle of the lane (ie ignore side walls)
+            obstacle.transform.IsChildOf(currentLane.transform); // and it's a child of the current lane
+    }
+
+
     private void Die()
     {
         if (!isAlive) return;
@@ -155,10 +222,16 @@ public class PlayerController : MonoBehaviour
 
         //Debug.Log("Died!");
 
-        if (laneSwitchCoroutine != null)
+        if (isSwitchingLane)
         {
             StopCoroutine(laneSwitchCoroutine);
             isSwitchingLane = false;
+        }
+
+        if (isCancellingSwitch)
+        {
+            StopCoroutine(cancelSwitchCoroutine);
+            isCancellingSwitch = false;
         }
 
         GameObject deathEffect = Instantiate(deathEffectPrefab);
