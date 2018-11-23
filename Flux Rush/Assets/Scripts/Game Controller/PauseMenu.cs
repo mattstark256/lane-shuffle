@@ -19,6 +19,8 @@ public class PauseMenu : MonoBehaviour
     private GameObject creditsPage;
     [SerializeField]
     private GameObject instructionsPage;
+    [SerializeField]
+    private GameObject eraseDataPage;
 
     [SerializeField]
     private MusicManager musicManager;
@@ -80,6 +82,14 @@ public class PauseMenu : MonoBehaviour
     }
 
 
+    public void SwitchToEraseDataPage()
+    {
+        CloseAllPages();
+        eraseDataPage.SetActive(true);
+        backButton.SetActive(true);
+    }
+
+
     public void RestartGame()
     {
         Time.timeScale = 1;
@@ -93,6 +103,7 @@ public class PauseMenu : MonoBehaviour
         settingsPage.SetActive(false);
         creditsPage.SetActive(false);
         instructionsPage.SetActive(false);
+        eraseDataPage.SetActive(false);
         backButton.SetActive(false);
     }
 }
