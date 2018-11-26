@@ -268,7 +268,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &48962802
 GameObject:
@@ -861,7 +861,7 @@ RectTransform:
   - {fileID: 2025868024}
   - {fileID: 1861512275}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5609,7 +5609,6 @@ GameObject:
   - component: {fileID: 2020971384}
   - component: {fileID: 2020971387}
   - component: {fileID: 2020971385}
-  - component: {fileID: 2020971386}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -5874,6 +5873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneryPrefab: {fileID: 1443122768431378, guid: f358367ba002e7c40a353bf70a375f75,
     type: 2}
+  sceneryParent: {fileID: 2103382767}
   generateZ: 50
   scenerySpacing: 6
 --- !u!114 &2020971384
@@ -5909,19 +5909,6 @@ MonoBehaviour:
   sampleSize: 30
   fPSText: {fileID: 1959405707}
   fPSToggleCheckbox: {fileID: 1026051035}
---- !u!114 &2020971386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2020971374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1ff8b99c6d9efb4db2a5651ae9ed1e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyCode: 49
-  resolution: {x: 608, y: 1080}
 --- !u!114 &2020971387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6273,6 +6260,34 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2095100097}
   m_CullTransparentMesh: 0
+--- !u!1 &2103382766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2103382767}
+  m_Layer: 0
+  m_Name: Scenery Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2103382767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2103382766}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2119738924
 GameObject:
   m_ObjectHideFlags: 0

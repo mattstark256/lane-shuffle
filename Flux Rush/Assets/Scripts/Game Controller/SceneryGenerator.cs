@@ -10,6 +10,8 @@ public class SceneryGenerator : MonoBehaviour
     [SerializeField]
     private GameObject sceneryPrefab;
     [SerializeField]
+    private Transform sceneryParent;
+    [SerializeField]
     private float generateZ = 20f;
     [SerializeField]
     private float scenerySpacing = 6f;
@@ -32,6 +34,7 @@ public class SceneryGenerator : MonoBehaviour
             angle += 10;
 
             GameObject newColumn = Instantiate(sceneryPrefab);
+            newColumn.transform.SetParent(sceneryParent);
             newColumn.transform.position = Vector3.forward * nextSceneryPosition;
             //newColumn.transform.rotation = Quaternion.Euler(0, 0, angle);
             trackObjectManager.AddObjectToTrack(newColumn);
