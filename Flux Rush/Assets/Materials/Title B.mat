@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Title B
   m_Shader: {fileID: 4800000, guid: 6d405c58a69210b4195d2038e6888da4, type: 3}
   m_ShaderKeywords: 
@@ -63,7 +64,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LowerCutoff: 0.472227
+    - _LowerCutoff: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -72,7 +73,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _UpperCutoff: 0.972227
+    - _UpperCutoff: 0.5
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
